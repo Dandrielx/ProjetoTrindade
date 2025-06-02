@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from '../screens/HomeScreen';
 import MapScreen from '../screens/MapScreen';
 import LoginScreen from '../screens/LoginScreen';
+import RegisterScreen from '../screens/RegisterScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,14 +23,14 @@ export default function AppNavigator() {
                     <Stack.Screen name="Map" component={MapScreen} />
                 </Stack.Navigator>
             ) : (
-                // Rotas públicas (login)
+                // Rotas públicas (login + cadastro)
                 <Stack.Navigator screenOptions={{ headerShown: false }}>
                     <Stack.Screen name="Login">
                         {(props) => <LoginScreen {...props} setIsLoggedIn={setIsLoggedIn} />}
                     </Stack.Screen>
+                    <Stack.Screen name="Register" component={RegisterScreen} />
                 </Stack.Navigator>
             )}
         </NavigationContainer>
     );
 }
-
