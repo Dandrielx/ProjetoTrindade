@@ -1,4 +1,4 @@
-import { sql } from '../src/db'
+import { sql } from '../src/db.js'
 
 sql`
 
