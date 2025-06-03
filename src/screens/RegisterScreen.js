@@ -1,26 +1,46 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+// import { API_BASE_URL } from '../config/api';
+
+const API_BASE_URL = 'http://10.0.2.2:3001/api/users'; // Exemplo se a nova porta for 3001
 
 export default function RegisterScreen({ navigation }) {
     const [nome, setNome] = useState('');
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
 
-    const handleRegister = () => {
+    const handleRegister = async () => {
         if (!nome || !email || !senha) {
             Alert.alert('Erro', 'Por favor, preencha todos os campos.');
             return;
         }
 
-        // Aqui você fará a chamada para o backend futuramente
-        Alert.alert('Cadastro realizado!', `Bem-vindo, ${nome}!`);
-        navigation.goBack(); // volta para o login
+        try {
+            const response = await fetch(`${API_BASE_URL}/register`, { // Usando a constante
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ nome, email, senha }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) { // Status 200-299
+                Alert.alert('Cadastro realizado!', data.message || `Bem-vindo, ${nome}!`);
+                navigation.goBack(); // volta para o login
+            } else {
+                Alert.alert('Erro no Cadastro', data.error || 'Não foi possível realizar o cadastro.');
+            }
+        } catch (error) {
+            console.error('Erro ao conectar com o servidor:', error);
+            Alert.alert('Erro de Conexão', 'Não foi possível conectar ao servidor. Tente novamente mais tarde.');
+        }
     };
 
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Cadastro</Text>
-
             <TextInput
                 style={styles.input}
                 placeholder="Nome"
@@ -42,11 +62,9 @@ export default function RegisterScreen({ navigation }) {
                 onChangeText={setSenha}
                 secureTextEntry
             />
-
             <TouchableOpacity style={styles.button} onPress={handleRegister}>
                 <Text style={styles.buttonText}>Cadastrar</Text>
             </TouchableOpacity>
-
             <TouchableOpacity onPress={() => navigation.goBack()}>
                 <Text style={styles.link}>Voltar para login</Text>
             </TouchableOpacity>

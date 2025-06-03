@@ -10,8 +10,14 @@ if (!process.env.DATABASE_URL) {
     process.exit(1); // Encerra a aplicação se o DB URL não estiver definido
 }
 
+// JWT_SECRET warning can remain or be removed if you handle it elsewhere
+if (!process.env.JWT_SECRET && process.env.NODE_ENV !== 'test') {
+    console.warn("AVISO: JWT_SECRET não está definida no arquivo .env. Necessário para login.");
+}
+
 export const sql = neon(process.env.DATABASE_URL);
 
+/*
 const requestHandler = async (req, res) => {
     try {
         const result = await sql`SELECT version()`;
@@ -28,3 +34,4 @@ const requestHandler = async (req, res) => {
 http.createServer(requestHandler).listen(4242, () => {
     console.log("Server running at http://localhost:4242");
 });
+*/
