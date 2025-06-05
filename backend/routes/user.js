@@ -87,7 +87,7 @@ export default async function (fastify, opts) {
                 return reply.code(500).send({ error: 'Erro de configuração interna do servidor.' });
             }
 
-            const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: '1h' }); // Token expira em 1 hora
+            const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: '48h' }); // Token expira em 48 horas
 
             return reply.send({
                 message: 'Login bem-sucedido!',

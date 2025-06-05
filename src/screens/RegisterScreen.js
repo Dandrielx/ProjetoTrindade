@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-// import { API_BASE_URL } from '../config/api';
+import { API_BASE_URL } from '../config/api';
 
-const API_BASE_URL = 'http://10.0.2.2:3001/api/users'; // Exemplo se a nova porta for 3001
+//const API_BASE_URL = 'http://192.168.192.166:3001/api/users';
 
 export default function RegisterScreen({ navigation }) {
     const [nome, setNome] = useState('');
@@ -16,6 +16,9 @@ export default function RegisterScreen({ navigation }) {
         }
 
         try {
+            const targetUrl = `${API_BASE_URL}/register`;
+            console.log("Tentando conectar a:", targetUrl); // Para ver no console do Metro
+            Alert.alert("Conectando a", targetUrl); // Para ver no app
             const response = await fetch(`${API_BASE_URL}/register`, { // Usando a constante
                 method: 'POST',
                 headers: {
@@ -38,6 +41,7 @@ export default function RegisterScreen({ navigation }) {
         }
     };
 
+    // FRONT
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Cadastro</Text>

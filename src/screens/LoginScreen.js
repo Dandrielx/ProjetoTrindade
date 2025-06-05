@@ -2,12 +2,10 @@ import Reac, { useState } from 'react';
 import { View, Text, Button, TextInput, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import globalStyles from '../styles/global';
 import * as SecureStore from 'expo-secure-store';
-//import { API_BASE_URL } from '../config/api';
+import { API_BASE_URL } from '../config/api';
 
-// COLOQUE A URL CORRETA AQUI OU IMPORTE DE UM ARQUIVO DE CONFIGURAÇÃO
-//----//
 const TOKEN_KEY = 'user_jwt_token'; // Chave para armazenar o token
-const API_BASE_URL = 'http://10.0.2.2:3001/api/users'; // Exemplo se a nova porta for 3001
+//const API_BASE_URL = 'http://192.168.192.166:3001/api/users'; // Exemplo se a nova porta for 3001
 
 export default function LoginScreen({ navigation, setIsLoggedIn }) {
 
@@ -36,7 +34,7 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
             if (response.ok) {
                 await SecureStore.setItemAsync(TOKEN_KEY, data.token);
                 setIsLoggedIn(true); // Atualiza o estado no AppNavigator
-                // navigation.navigate('Home'); // AppNavigator já cuida disso
+
             } else {
                 Alert.alert('Falha no Login', data.error || 'Email ou senha inválidos.');
             }
@@ -52,7 +50,7 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
             <Text style={globalStyles.title}>Faça o login em sua conta</Text>
             <TextInput
                 placeholder="Email"
-                style={globalStyles.input} // Supondo que você tem globalStyles.input
+                style={globalStyles.input}
                 value={email}
                 onChangeText={setEmail}
                 keyboardType="email-address"
@@ -61,7 +59,7 @@ export default function LoginScreen({ navigation, setIsLoggedIn }) {
             <TextInput
                 placeholder="Senha"
                 secureTextEntry
-                style={globalStyles.input} // Supondo que você tem globalStyles.input
+                style={globalStyles.input}
                 value={password}
                 onChangeText={setPassword}
             />
